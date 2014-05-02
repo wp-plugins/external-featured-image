@@ -1,6 +1,6 @@
-=== External Featured Image ===
+=== Nelio External Featured Image ===
 Contributors: nelio
-Tags: external featured image
+Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 3.9
 Stable tag: 1.0.0
@@ -14,7 +14,7 @@ posts.
 
 Are you using an external service for storing your images? Then you'd probably
 like to use those images as featured images for your pages and posts. This
-plugin let's you do this easily!
+plugin lets you do this easily!
 
 
 == Changelog ==
