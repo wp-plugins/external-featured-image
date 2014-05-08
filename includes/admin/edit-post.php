@@ -33,8 +33,18 @@ function nelioefi_url_metabox( $post ) {
 	} else { ?>
 	<div id="nelioefi_preview_block" style="display:none;"><?php
 	} ?>
-		<div id="nelioefi_image_wrapper" style="width:100%;height:200px;margin-top:10px;overflow:hidden;">
-			<img style="max-width:160%;max-height:160%;top:-30%;left:-50%;" src="<?php echo $nelioefi_url; ?>" />
+		<div id="nelioefi_image_wrapper" style="<?php
+			echo (
+				'width:100%;' .
+				'max-width:300px;' .
+				'height:200px;' .
+				'margin-top:10px;' .
+				'background:url(' . $nelioefi_url . ') no-repeat center center; ' .
+				'-webkit-background-size:cover;' .
+				'-moz-background-size:cover;' .
+				'-o-background-size:cover;' .
+				'background-size:cover;' );
+			?>">
 		</div>
 
 	<?php
@@ -66,7 +76,7 @@ function nelioefi_url_metabox( $post ) {
 			<script>
 			function nelioefiPreview() {
 				jQuery("#nelioefi_preview_block").show();
-				jQuery("#nelioefi_image_wrapper > img").attr('src', jQuery("#nelioefi_url").val());
+				jQuery("#nelioefi_image_wrapper").attr('background-image', "url('" + jQuery("#nelioefi_url").val() + "'" );
 				jQuery("#nelioefi_image_wrapper").show();
 			}
 			</script>

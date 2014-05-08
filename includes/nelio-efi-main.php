@@ -32,7 +32,12 @@ function nelioefi_replace_thumbnail( $html, $post_id, $post_image_id, $size, $at
 
 		$html = sprintf(
 			'<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ' .
-			'style="background:url(\'%s\') no-repeat;background-size:100%%;%s%s" class="%s wp-post-image nelioefi" />',
+			'style="background:url(\'%s\') no-repeat center center;' .
+			'-webkit-background-size:cover;' .
+			'-moz-background-size:cover;' .
+			'-o-background-size:cover;' .
+			'background-size:cover;' .
+			'%s%s" class="%s wp-post-image nelioefi" />',
 			$image_url, $width, $height, $additional_classes );
 	}
 

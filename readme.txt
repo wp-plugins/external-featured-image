@@ -3,7 +3,7 @@ Contributors: nelio
 Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 3.9
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,12 +29,7 @@ default theme TwentyFourteen defines a thumbnail size called
 
 This plugin uses the alternative-size information (which your theme uses for
 rendering a featured image) for scaling and cropping external featured images
-via CSS on your users' browsers. Usually, the results look great. However, we
-detected certain situations in which the featured image looks strange.
-Specifically, if the "expected aspect ratio" (the one specified by the
-alternative size) and the "actual aspect ratio" (the image's) are very
-different, then the results might not look great. If that occurs, you may be
-able to fix it modifying the CSS of your theme.
+via CSS on your users' browsers.
 
 _Featured image by
 [Cubmundo](https://www.flickr.com/photos/cubmundo/6748759375)_
@@ -42,7 +37,7 @@ _Featured image by
 
 == Changelog ==
 
-= 1.0.1 =
+= 1.0.2 =
 * Improved image sizing. Now, the plugin uses the sizes the theme defines and
 tries to scale and crop the external image for its proper display.
 
@@ -53,6 +48,6 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.0.1 =
+= 1.0.2 =
 External images are now scaled to theme's thumbnail sizes.
 
