@@ -36,7 +36,8 @@ alternative size) and the "actual aspect ratio" (the image's) are very
 different, then the results might not look great. If that occurs, you may be
 able to fix it modifying the CSS of your theme.
 
-_Featured image by [Cubmundo](https://www.flickr.com/photos/tomtolkien/482139709://www.flickr.com/photos/cubmundo/6748759375)_
+_Featured image by
+[Cubmundo](https://www.flickr.com/photos/cubmundo/6748759375)_
 
 
 == Changelog ==
