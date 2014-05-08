@@ -35,6 +35,12 @@ _Featured image by
 [Cubmundo](https://www.flickr.com/photos/cubmundo/6748759375)_
 
 
+== Screenshots ==
+
+1. **External Featured Image with URL.** Easily set the featured image of a
+post by using the image's URL only!
+
+
 == Changelog ==
 
 = 1.0.3 =
