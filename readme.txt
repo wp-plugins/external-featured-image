@@ -17,7 +17,7 @@ like to use those images as featured images for your pages and posts. This
 plugin lets you do this easily!
 
 
-=== Notice ===
+**Notice**
 
 Every time an image is uploaded in the media library, WordPress automatically
 creates alternative sizes of that image (thumbnail, medium, large and full).
