@@ -76,7 +76,7 @@ function nelioefi_url_metabox( $post ) {
 			<script>
 			function nelioefiPreview() {
 				jQuery("#nelioefi_preview_block").show();
-				jQuery("#nelioefi_image_wrapper").attr('background-image', "url('" + jQuery("#nelioefi_url").val() + "'" );
+				jQuery("#nelioefi_image_wrapper").css('background-image', "url('" + jQuery("#nelioefi_url").val() + "')" );
 				jQuery("#nelioefi_image_wrapper").show();
 			}
 			</script>
