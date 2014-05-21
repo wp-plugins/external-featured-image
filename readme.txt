@@ -1,9 +1,10 @@
 === Nelio External Featured Image ===
 Contributors: nelio
+Donate link: http://neliosoftware.com
 Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 3.9
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +44,11 @@ post by using the image's URL only!
 
 == Changelog ==
 
+= 1.0.4 =
+* Bug fix. You can now set regular featured images under all circumstances
+(thanks _rprose_ for reporting the bug!).
+
+
 = 1.0.3 =
 * Improved image sizing. Now, the plugin uses the sizes the theme defines and
 tries to scale and crop the external image for its proper display.
@@ -54,6 +60,6 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.0.3 =
-External images are now scaled to theme's thumbnail sizes.
+= 1.0.4 =
+Bug fix. Setting regular featured image works again.
 

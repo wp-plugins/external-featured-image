@@ -87,16 +87,23 @@ function nelioefi_url_metabox( $post ) {
 
 add_action( 'save_post', 'nelioefi_save_url' );
 function nelioefi_save_url( $post_ID ) {
-	global $post;
-	if ( isset( $_POST['nelioefi_url'] ) ) {
+	if ( isset( $_POST['nelioefi_url'] ) )
 		update_post_meta( $post_ID, '_nelioefi_url', strip_tags( $_POST['nelioefi_url'] ) );
-		$wordpress_featured_image = get_post_meta( $post_ID, '_thumbnail_id', true );
-		if ( !$wordpress_featured_image || $wordpress_featured_image == -1 ) {
-			if ( strlen( strip_tags( $_POST['nelioefi_url'] ) ) > 0 )
-				update_post_meta( $post_ID, '_thumbnail_id', -1 );
-			else
-				delete_post_meta( $post_ID, '_thumbnail_id' );
-		}
-	}
+}
+
+
+add_action( 'the_post', 'nelioefi_fake_featured_image_if_necessary' );
+function nelioefi_fake_featured_image_if_necessary( $post ) {
+	if ( is_array( $post ) ) $post_ID = $post['ID'];
+	else $post_IDid = $post->ID;
+	
+	$has_nelioefi = strlen( get_post_meta( $post_ID, '_nelioefi_url', true ) ) > 0;
+	$wordpress_featured_image = get_post_meta( $post_ID, '_thumbnail_id', true );
+
+	if ( $has_nelioefi && !$wordpress_featured_image )
+		update_post_meta( $post_ID, '_thumbnail_id', -1 );
+	if ( !$has_nelioefi && $wordpress_featured_image == -1 )
+		delete_post_meta( $post_ID, '_thumbnail_id' );
+
 }
 
