@@ -4,7 +4,7 @@ Donate link: http://neliosoftware.com
 Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 3.9
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,11 @@ post by using the image's URL only!
 
 == Changelog ==
 
+= 1.0.5 =
+* Bug fix. One function for locating external featured images was missplaced.
+I moved it to the proper file so that it loads when the user is not an admin.
+
+
 = 1.0.4 =
 * Bug fix. You can now set regular featured images under all circumstances
 (thanks _rprose_ for reporting the bug!).
@@ -60,6 +65,6 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.0.4 =
+= 1.0.5 =
 Bug fix. Setting regular featured image works again.
 

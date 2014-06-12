@@ -44,3 +44,21 @@ function nelioefi_replace_thumbnail( $html, $post_id, $post_image_id, $size, $at
 	return $html;
 }
 
+
+add_action( 'the_post', 'nelioefi_fake_featured_image_if_necessary' );
+function nelioefi_fake_featured_image_if_necessary( $post ) {
+	if ( is_array( $post ) ) $post_ID = $post['ID'];
+	else $post_ID = $post->ID;
+	
+	$has_nelioefi = strlen( get_post_meta( $post_ID, '_nelioefi_url', true ) ) > 0;
+	$wordpress_featured_image = get_post_meta( $post_ID, '_thumbnail_id', true );
+
+	if ( $has_nelioefi && !$wordpress_featured_image )
+		update_post_meta( $post_ID, '_thumbnail_id', -1 );
+	if ( !$has_nelioefi && $wordpress_featured_image == -1 )
+		delete_post_meta( $post_ID, '_thumbnail_id' );
+
+}
+
+
+
