@@ -4,7 +4,7 @@ Donate link: http://neliosoftware.com
 Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 3.9
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,13 @@ post by using the image's URL only!
 
 == Changelog ==
 
+= 1.0.6 =
+* Compatibility with the Genesis Framework. By default, external featured
+images have a minimum size of 150x150px. Make sure you edit your CSS files
+for proper image size.
+* Some minor tweaks.
+
+
 = 1.0.5 =
 * Bug fix. One function for locating external featured images was missplaced.
 I moved it to the proper file so that it loads when the user is not an admin.
@@ -65,6 +72,6 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.0.5 =
-Bug fix. Setting regular featured image works again.
+= 1.0.6 =
+Compatibility with the Gensis Framework.
 

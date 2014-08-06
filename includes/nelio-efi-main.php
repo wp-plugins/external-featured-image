@@ -1,6 +1,26 @@
 <?php
 
 // Overriding post thumbnail when necessary
+add_filter( 'genesis_pre_get_image', 'nelioefi_genesis_thumbnail', 10, 3 );
+function nelioefi_genesis_thumbnail( $unknown_param, $args, $post ) {
+	$image_url = get_post_meta( $post->ID, '_nelioefi_url', true );
+
+	if ( !$image_url || strlen( $image_url ) == 0 ) {
+		return false;
+	}
+
+	if ( $args['format'] == 'html' ) {
+		$html = nelioefi_replace_thumbnail( '', $post->ID, 0, $args['size'], $args['attr'] );
+		$html = str_replace( 'style="', 'style="min-width:150px;min-height:150px;', $html );
+		return $html;
+	}
+	else {
+		return $image_url;
+	}
+}
+
+
+// Overriding post thumbnail when necessary
 add_filter( 'post_thumbnail_html', 'nelioefi_replace_thumbnail', 10, 5 );
 function nelioefi_replace_thumbnail( $html, $post_id, $post_image_id, $size, $attr ) {
 	$image_url = get_post_meta( $post_id, '_nelioefi_url', true );
