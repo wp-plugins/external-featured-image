@@ -4,7 +4,7 @@ Donate link: http://neliosoftware.com
 Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 3.9
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,20 +20,67 @@ plugin lets you do this easily!
 
 **Notice**
 
+Sometimes, external featured images are not visible. Please, check the FAQ
+section to discover how to solve the issue.
+
+_Featured image by
+[Cubmundo](https://www.flickr.com/photos/cubmundo/6748759375)_
+
+
+== Frequently Asked Questions ==
+
+= How does the plugin work? =
+
 Every time an image is uploaded in the media library, WordPress automatically
-creates alternative sizes of that image (thumbnail, medium, large and full).
-Themes may then choose among these different versions when displaying the an
-image in a post. Thumbnails do also exist for featured images. Moreover, themes
-may registerd their own alternative image sizes. For example, WordPress'
-default theme TwentyFourteen defines a thumbnail size called
-"twentyfourteen-full-width" whose dimensions are 1038x576.
+creates alternative version of that image, each with a different size
+(thumbnail, medium, large and full).  Themes may then choose among these
+different versions when displaying the an image in a post.
+
+Thumbnails do also exist for featured images, and themes may registerd their
+own alternative image sizes. For example, WordPress' default theme
+TwentyFourteen defines a thumbnail size called "twentyfourteen-full-width"
+whose dimensions are 1038x576.
 
 This plugin uses the alternative-size information (which your theme uses for
 rendering a featured image) for scaling and cropping external featured images
 via CSS on your users' browsers.
 
-_Featured image by
-[Cubmundo](https://www.flickr.com/photos/cubmundo/6748759375)_
+There are some situations, however, in which this "size" information is not
+provided. In these scenarios, our plugin relies on theme's CSS file. If the
+CSS rules define the width and height of the featured image, everything should
+be fine. Otherwise, you may have to tweak something.
+
+
+= I don't see external featured images. What do I do? =
+
+Try adding the following CSS code in your theme:
+
+`
+img.nelioefi {
+  min-width:100px;
+  min-height:100px;
+}
+`
+
+and refresh your site. If you can see the external featured image, it means
+that our plugin works properly, but some CSS tweaking was needed. Now, simply
+edit the CSS styles of your theme so that the featured image looks good
+everywhere (`width`, `height`, `max-width`, `max-height`).
+
+
+= I added the CSS code you mention, but images do not appear yet. =
+
+WordPress offers more than one function for inserting featured images.
+Unfortunately, only one of them has a filter we can use. If your theme is not
+using the `(get_)the_post_thumbnail`, then our plugin will not be able to
+insert external featured images.
+
+In these cases, the only solution is to tweak your theme and edit some PHP
+code. Unfortunately, there's no generic solution for doing it. Just locate
+where featured images are being inserted, and edit those lines so that it uses
+the previous function (if possible). Please note that the plugin also offers
+some helper functions that will ease the "tuning" of the theme (check the file
+includes/nelio-efi-main.php to know them and review their documentation).
 
 
 == Screenshots ==
@@ -43,6 +90,13 @@ post by using the image's URL only!
 
 
 == Changelog ==
+
+= 1.0.7 =
+* Added External Featured Image box for custom post types. If the custom
+post type's template uses featured image.
+* Some helper functions have been introduced in the plugin, so that adapting
+themes becomes easier.
+
 
 = 1.0.6 =
 * Compatibility with the Genesis Framework. By default, external featured
@@ -72,6 +126,7 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.0.6 =
-Compatibility with the Gensis Framework.
+= 1.0.7 =
+Added External Featured Image for custom post types. New helper functions for
+tweaking themes, if necessary.
 

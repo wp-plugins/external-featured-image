@@ -4,23 +4,22 @@
 add_action( 'add_meta_boxes', 'nelioefi_add_url_metabox' );
 function nelioefi_add_url_metabox() {
 
-	add_meta_box(
-		'nelioefi_url_metabox',
-		'External Featured Image',
-		'nelioefi_url_metabox',
-		'post',
-		'side',
-		'default'
+	$excluded_post_types = array(
+		'attachment', 'revision', 'nav_menu_item', 'wpcf7_contact_form',
 	);
 
-	add_meta_box(
-		'nelioefi_url_metabox',
-		'External Featured Image',
-		'nelioefi_url_metabox',
-		'page',
-		'side',
-		'default'
-	);
+	foreach ( get_post_types( '', 'names' ) as $post_type ) {
+		if ( in_array( $post_type, $excluded_post_types ) )
+			continue;
+		add_meta_box(
+			'nelioefi_url_metabox',
+			'External Featured Image',
+			'nelioefi_url_metabox',
+			$post_type,
+			'side',
+			'default'
+		);
+	}
 
 }
 
