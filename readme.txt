@@ -4,7 +4,7 @@ Donate link: http://neliosoftware.com
 Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 4.0
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,10 @@ post by using the image's URL only!
 
 == Changelog ==
 
+= 1.0.8 =
+* Referencing our A/B testing service for WordPress.
+
+
 = 1.0.7 =
 * Added External Featured Image box for custom post types. If the custom
 post type's template uses featured image.
@@ -126,7 +130,6 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.0.7 =
-Added External Featured Image for custom post types. New helper functions for
-tweaking themes, if necessary.
+= 1.0.8 =
+Reference to our A/B testing service.
 

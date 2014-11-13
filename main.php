@@ -19,7 +19,7 @@
 /*
  * Plugin Name: Nelio External Featured Image
  * Description: Use external images as your posts/page featured images. If you use an external service for storing your images and then linking them from your WordPress site, this plugin will perfectly fit your needs.
- * Version: 1.0.7
+ * Version: 1.0.8
  * Author: Nelio Software
  * Plugin URI: http://neliosoftware.com
  * Text Domain: nelioefi
@@ -28,7 +28,7 @@
 // ==========================================================================
 // PLUGIN INFORMATION
 // ==========================================================================
-	define( 'NELIOEFI_PLUGIN_VERSION', '1.0.7' );
+	define( 'NELIOEFI_PLUGIN_VERSION', '1.0.8' );
 	define( 'NELIOEFI_PLUGIN_NAME', 'Nelio External Featured Image' );
 	define( 'NELIOEFI_PLUGIN_DIR_NAME', basename( dirname( __FILE__ ) ) );
 
@@ -42,8 +42,10 @@
 
 
 // ADMIN STUFF
-	if ( is_admin() )
+	if ( is_admin() ) {
 		require_once( NELIOEFI_ADMIN_DIR . '/edit-post.php' );
+		require_once( NELIOEFI_ADMIN_DIR . '/nelioab-campaign.php' );
+	}
 
 // REGULAR STUFF
 	require_once( NELIOEFI_DIR . '/nelio-efi-main.php' );
