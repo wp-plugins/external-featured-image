@@ -24,7 +24,7 @@ function nelioefi_add_url_metabox() {
 }
 
 function nelioefi_url_metabox( $post ) {
-	$nelioefi_url = get_post_meta( $post->ID, '_nelioefi_url', true );
+	$nelioefi_url = get_post_meta( $post->ID, _nelioefi_url(), true );
 	$has_img = strlen( $nelioefi_url ) > 0;
 
 	if ( $has_img ) { ?>
@@ -87,7 +87,7 @@ function nelioefi_url_metabox( $post ) {
 add_action( 'save_post', 'nelioefi_save_url' );
 function nelioefi_save_url( $post_ID ) {
 	if ( isset( $_POST['nelioefi_url'] ) )
-		update_post_meta( $post_ID, '_nelioefi_url', strip_tags( $_POST['nelioefi_url'] ) );
+		update_post_meta( $post_ID, _nelioefi_url(), strip_tags( $_POST['nelioefi_url'] ) );
 }
 
 

@@ -7,6 +7,15 @@
 /* =========================================================================*/
 
 /**
+ * This function returns Nelio EFI's post meta key. The key can be changed
+ * using the filter `nelioefi_post_meta_key'
+ */
+function _nelioefi_url() {
+	return apply_filters( 'nelioefi_post_meta_key', '_nelioefi_url' );
+}
+
+
+/**
  * This function returns whether the post whose id is $id uses an external
  * featured image or not
  */
@@ -24,7 +33,7 @@ function uses_nelioefi( $id ) {
  * false otherwise.
  */
 function nelioefi_get_thumbnail_src( $id ) {
-	$image_url = get_post_meta( $id, '_nelioefi_url', true );
+	$image_url = get_post_meta( $id, _nelioefi_url(), true );
 	if ( !$image_url || strlen( $image_url ) == 0 )
 		return false;
 	return $image_url;
@@ -100,7 +109,7 @@ function nelioefi_get_html_thumbnail( $id, $size = false, $attr = array() ) {
 // Overriding post thumbnail when necessary
 add_filter( 'genesis_pre_get_image', 'nelioefi_genesis_thumbnail', 10, 3 );
 function nelioefi_genesis_thumbnail( $unknown_param, $args, $post ) {
-	$image_url = get_post_meta( $post->ID, '_nelioefi_url', true );
+	$image_url = get_post_meta( $post->ID, _nelioefi_url(), true );
 
 	if ( !$image_url || strlen( $image_url ) == 0 ) {
 		return false;
@@ -131,7 +140,7 @@ function nelioefi_fake_featured_image_if_necessary( $post ) {
 	if ( is_array( $post ) ) $post_ID = $post['ID'];
 	else $post_ID = $post->ID;
 
-	$has_nelioefi = strlen( get_post_meta( $post_ID, '_nelioefi_url', true ) ) > 0;
+	$has_nelioefi = strlen( get_post_meta( $post_ID, _nelioefi_url(), true ) ) > 0;
 	$wordpress_featured_image = get_post_meta( $post_ID, '_thumbnail_id', true );
 
 	if ( $has_nelioefi && !$wordpress_featured_image )
