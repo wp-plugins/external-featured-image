@@ -86,6 +86,12 @@ function nelioefi_get_html_thumbnail( $id, $size = false, $attr = array() ) {
 	if ( isset( $attr['class'] ) )
 		$additional_classes .= $attr['class'];
 
+	$alt = get_post_meta( $id, '_nelioefi_alt', true );
+	if ( isset( $attr['alt'] ) )
+		$alt = $attr['alt'];
+	if ( !$alt )
+		$alt = '';
+
 	$html = sprintf(
 		'<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ' .
 		'style="background:url(\'%s\') no-repeat center center;' .
@@ -93,8 +99,9 @@ function nelioefi_get_html_thumbnail( $id, $size = false, $attr = array() ) {
 		'-moz-background-size:cover;' .
 		'-o-background-size:cover;' .
 		'background-size:cover;' .
-		'%s%s" class="%s wp-post-image nelioefi" />',
-		$image_url, $width, $height, $additional_classes );
+		'%s%s" class="%s wp-post-image nelioefi" '.
+		'alt="%s" />',
+		$image_url, $width, $height, $additional_classes, $alt );
 
 	return $html;
 }

@@ -25,8 +25,20 @@ function nelioefi_add_url_metabox() {
 
 function nelioefi_url_metabox( $post ) {
 	$nelioefi_url = get_post_meta( $post->ID, _nelioefi_url(), true );
+	$nelioefi_alt = get_post_meta( $post->ID, '_nelioefi_alt', true );
 	$has_img = strlen( $nelioefi_url ) > 0;
-
+	if ( $has_img ) {
+		$hide_if_img = 'display:none;';
+		$show_if_img = '';
+	}
+	else {
+		$hide_if_img = '';
+		$show_if_img = 'display:none;';
+	}
+	?>
+	<input type="text" placeholder="ALT attribute" style="width:100%;margin-top:10px;<?php echo $show_if_img; ?>"
+		id="nelioefi_alt" name="nelioefi_alt"
+		value="<?php echo esc_attr( $nelioefi_alt ); ?>" /><?php
 	if ( $has_img ) { ?>
 	<div id="nelioefi_preview_block"><?php
 	} else { ?>
@@ -46,48 +58,50 @@ function nelioefi_url_metabox( $post ) {
 			?>">
 		</div>
 
-	<?php
-	if ( strlen( $nelioefi_url ) > 0 ) { ?>
-		<a id="nelioefi_remove_button" href="#" onClick="javascript:nelioefiRemoveFeaturedImage();">Remove featured image</a>
-		<script>
-		function nelioefiRemoveFeaturedImage() {
-			jQuery("#nelioefi_preview_block").hide();
-			jQuery("#nelioefi_image_wrapper").hide();
-			jQuery("#nelioefi_remove_button").hide();
-			jQuery("#nelioefi_url").val('');
-			jQuery("#nelioefi_controls").show();
-		}
-		</script>
-		<?php
-	} ?>
-	</div><?php
-
-	if ( $has_img ) { ?>
-	<div id="nelioefi_controls" style="display:none;"><?php
-	} else { ?>
-	<div id="nelioefi_controls"><?php
-	} ?>
-		<input type="text" placeholder="Image URL" style="width:100%;margin-top:10px;"
-			id="nelioefi_url" name="nelioefi_url"
-			value="<?php echo esc_attr( $nelioefi_url ); ?>" />
-		<div style="text-align:right;margin-top:10px;">
-			<a class="button" id="ext_feat_img-preview" onClick="javascript:nelioefiPreview();">Preview</a>
-			<script>
-			function nelioefiPreview() {
-				jQuery("#nelioefi_preview_block").show();
-				jQuery("#nelioefi_image_wrapper").css('background-image', "url('" + jQuery("#nelioefi_url").val() + "')" );
-				jQuery("#nelioefi_image_wrapper").show();
-			}
-			</script>
-		</div>
+	<a id="nelioefi_remove_button" href="#" onClick="javascript:nelioefiRemoveFeaturedImage();" style="<?php echo $show_if_img; ?>">Remove featured image</a>
+	<script>
+	function nelioefiRemoveFeaturedImage() {
+		jQuery("#nelioefi_preview_block").hide();
+		jQuery("#nelioefi_image_wrapper").hide();
+		jQuery("#nelioefi_remove_button").hide();
+		jQuery("#nelioefi_alt").hide();
+		jQuery("#nelioefi_alt").val('');
+		jQuery("#nelioefi_url").val('');
+		jQuery("#nelioefi_url").show();
+		jQuery("#nelioefi_preview_button").parent().show();
+	}
+	function nelioefiPreview() {
+		jQuery("#nelioefi_preview_block").show();
+		jQuery("#nelioefi_image_wrapper").css('background-image', "url('" + jQuery("#nelioefi_url").val() + "')" );
+		jQuery("#nelioefi_image_wrapper").show();
+		jQuery("#nelioefi_remove_button").show();
+		jQuery("#nelioefi_alt").show();
+		jQuery("#nelioefi_url").hide();
+		jQuery("#nelioefi_preview_button").parent().hide();
+	}
+	</script>
+	</div>
+	<input type="text" placeholder="Image URL" style="width:100%;margin-top:10px;<?php echo $hide_if_img; ?>"
+		id="nelioefi_url" name="nelioefi_url"
+		value="<?php echo esc_attr( $nelioefi_url ); ?>" />
+	<div style="text-align:right;margin-top:10px;<?php echo $hide_if_img; ?>">
+		<a class="button" id="nelioefi_preview_button" onClick="javascript:nelioefiPreview();">Preview</a>
 	</div>
 	<?php
 }
 
 add_action( 'save_post', 'nelioefi_save_url' );
 function nelioefi_save_url( $post_ID ) {
+	$url = '';
 	if ( isset( $_POST['nelioefi_url'] ) )
-		update_post_meta( $post_ID, _nelioefi_url(), strip_tags( $_POST['nelioefi_url'] ) );
+		$url = strip_tags( $_POST['nelioefi_url'] );
+
+	update_post_meta( $post_ID, _nelioefi_url(), $url );
+
+	if ( isset( $_POST['nelioefi_alt'] ) && strlen( $url ) )
+		update_post_meta( $post_ID, '_nelioefi_alt', strip_tags( $_POST['nelioefi_alt'] ) );
+	else
+		update_post_meta( $post_ID, '_nelioefi_alt', '' );
 }
 
 

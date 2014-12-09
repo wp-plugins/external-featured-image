@@ -4,7 +4,7 @@ Donate link: http://neliosoftware.com
 Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 4.0
-Stable tag: 1.0.9
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,10 @@ post by using the image's URL only!
 
 == Changelog ==
 
+= 1.1.0 =
+* Define the ALT attribute of your external featured images.
+
+
 = 1.0.9 =
 * Added a new filter ("nelioefi_post_meta_key") that will let you define a
 custom post_meta_key to store the URL of the external featured image.
@@ -135,6 +139,6 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.0.9 =
-Added a new filter.
+= 1.1.0 =
+Define the ALT attribute of your external featured images.
 
