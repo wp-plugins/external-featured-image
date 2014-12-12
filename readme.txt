@@ -18,13 +18,32 @@ like to use those images as featured images for your pages and posts. This
 plugin lets you do this easily!
 
 
-**Notice**
+**Notice** Sometimes, external featured images are not visible. Please, check
+the FAQ section to discover how to solve the issue.
 
-Sometimes, external featured images are not visible. Please, check the FAQ
-section to discover how to solve the issue.
+= Featured On =
+
+* [10 Picture Perfect WordPress Thumbnail
+Plugins](http://premium.wpmudev.org/blog/wordpress-thumbnail-plugins/)
+(wpmudev.org)
+* [How to Use an Image URL to set the Featured
+Image](http://neliosoftware.com/use-image-url-set-featured-image/) (Nelio's
+blog)
+
+
+= Related Plugins by [Nelio](http://neliosoftware.com) =
+
+* [Nelio A/B Testing](http://nelioabtesting.com/?fp=wordpress.org) |
+[Download](https://wordpress.org/plugins/nelio-ab-testing/)
+* Nelio Featured Posts |
+[Download](https://wordpress.org/plugins/nelio-featured-posts/)
+* Nelio Related Posts |
+[Download](https://wordpress.org/plugins/nelio-related-posts/)
+
 
 _Featured image by
 [Cubmundo](https://www.flickr.com/photos/cubmundo/6748759375)_
+
 
 
 == Frequently Asked Questions ==
@@ -32,7 +51,7 @@ _Featured image by
 = How does the plugin work? =
 
 Every time an image is uploaded in the media library, WordPress automatically
-creates alternative version of that image, each with a different size
+creates alternative versions of that image, each with a different size
 (thumbnail, medium, large and full).  Themes may then choose among these
 different versions when displaying the an image in a post.
 
