@@ -31,7 +31,7 @@ Image](http://neliosoftware.com/use-image-url-set-featured-image/) (Nelio's
 blog)
 
 
-= Related Plugins by [Nelio](http://neliosoftware.com) =
+= Related Plugins by Nelio =
 
 * [Nelio A/B Testing](http://nelioabtesting.com/?fp=wordpress.org) |
 [Download](https://wordpress.org/plugins/nelio-ab-testing/)
