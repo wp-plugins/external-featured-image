@@ -4,7 +4,7 @@ Donate link: http://neliosoftware.com
 Tags: external, url, featured image
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,13 @@ post by using the image's URL only!
 
 == Changelog ==
 
+= 1.2.0 =
+* Bug fix: Quick Edit (and possibly other edits) a post removed the external
+featured image. This does no longer happen.
+* External Featured Image is inserted using the `src` attribute of an `img` tag
+in RSS feeds (instead of an inline CSS `background` property).
+
+
 = 1.1.0 =
 * Define the ALT attribute of your external featured images.
 
@@ -158,6 +165,6 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.1.0 =
-Define the ALT attribute of your external featured images.
+= 1.2.0 =
+Bug fix when quick editing a post. Some minor improvements.
 

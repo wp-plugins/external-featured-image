@@ -92,16 +92,28 @@ function nelioefi_get_html_thumbnail( $id, $size = false, $attr = array() ) {
 	if ( !$alt )
 		$alt = '';
 
-	$html = sprintf(
-		'<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ' .
-		'style="background:url(\'%s\') no-repeat center center;' .
-		'-webkit-background-size:cover;' .
-		'-moz-background-size:cover;' .
-		'-o-background-size:cover;' .
-		'background-size:cover;' .
-		'%s%s" class="%s wp-post-image nelioefi" '.
-		'alt="%s" />',
-		$image_url, $width, $height, $additional_classes, $alt );
+	if ( is_feed() ) {
+		$style = '';
+		if ( isset( $attr['style'] ) )
+			$style = 'style="' . $attr['style'] . '" ';
+		$html = sprintf(
+			'<img src="%s" %s' .
+			'class="%s wp-post-image nelioefi" '.
+			'alt="%s" />',
+			$image_url, $style, $additional_classes, $alt );
+	}
+	else {
+		$html = sprintf(
+			'<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ' .
+			'style="background:url(\'%s\') no-repeat center center;' .
+			'-webkit-background-size:cover;' .
+			'-moz-background-size:cover;' .
+			'-o-background-size:cover;' .
+			'background-size:cover;' .
+			'%s%s" class="%s wp-post-image nelioefi" '.
+			'alt="%s" />',
+			$image_url, $width, $height, $additional_classes, $alt );
+	}
 
 	return $html;
 }

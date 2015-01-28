@@ -92,16 +92,13 @@ function nelioefi_url_metabox( $post ) {
 
 add_action( 'save_post', 'nelioefi_save_url' );
 function nelioefi_save_url( $post_ID ) {
-	$url = '';
-	if ( isset( $_POST['nelioefi_url'] ) )
+	if ( isset( $_POST['nelioefi_url'] ) ) {
 		$url = strip_tags( $_POST['nelioefi_url'] );
+		update_post_meta( $post_ID, _nelioefi_url(), $url );
+	}
 
-	update_post_meta( $post_ID, _nelioefi_url(), $url );
-
-	if ( isset( $_POST['nelioefi_alt'] ) && strlen( $url ) )
+	if ( isset( $_POST['nelioefi_alt'] ) )
 		update_post_meta( $post_ID, '_nelioefi_alt', strip_tags( $_POST['nelioefi_alt'] ) );
-	else
-		update_post_meta( $post_ID, '_nelioefi_alt', '' );
 }
 
 
