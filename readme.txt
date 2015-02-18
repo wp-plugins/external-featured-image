@@ -1,5 +1,5 @@
 === Nelio External Featured Image ===
-Contributors: nelio
+Contributors: nelio, david
 Donate link: http://neliosoftware.com
 Tags: external, url, featured image
 Requires at least: 3.3
