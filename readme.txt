@@ -1,7 +1,7 @@
 === Nelio External Featured Image ===
 Contributors: nelio, davilera
 Donate link: http://neliosoftware.com
-Tags: external, url, featured image
+Tags: external, url, featured image, featured, featured images, image
 Requires at least: 3.3
 Tested up to: 4.1
 Stable tag: 1.2.0
