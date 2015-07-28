@@ -14,7 +14,6 @@ function _nelioefi_url() {
 	return apply_filters( 'nelioefi_post_meta_key', '_nelioefi_url' );
 }
 
-
 /**
  * This function returns whether the post whose id is $id uses an external
  * featured image or not
@@ -40,82 +39,46 @@ function nelioefi_get_thumbnail_src( $id ) {
 }
 
 
-/**
- * This function prints an image tag with the external featured image (if any).
- * This tag, in fact, has a 1x1 px transparent gif image as its src, and
- * includes the external featured image via inline CSS styling.
- */
-function nelioefi_the_html_thumbnail( $id, $size = false, $attr = array() ) {
-	if ( uses_nelioefi( $id ) )
-		echo nelioefi_get_html_thumbnail( $id );
-}
+$nelioab_first_time = true;
+function nelioefi_get_placeholder() {
+	$image_id = get_option( 'nelioefi_placeholder_id', false );
 
-
-/**
- * This function returns the image tag with the external featured image (if
- * any). This tag, in fact, has a 1x1 px transparent gif image as its src,
- * and includes the external featured image via inline CSS styling.
- */
-function nelioefi_get_html_thumbnail( $id, $size = false, $attr = array() ) {
-	if ( uses_nelioefi( $id ) === false )
-		return false;
-
-	$image_url = nelioefi_get_thumbnail_src( $id );
-
-	$width = false;
-	$height = false;
-	$additional_classes = '';
-
-	global $_wp_additional_image_sizes;
-	if ( is_array( $size ) ) {
-		$width = $size[0];
-		$height = $size[1];
-	}
-	else if ( isset( $_wp_additional_image_sizes[ $size ] ) ) {
-		$width = $_wp_additional_image_sizes[ $size ]['width'];
-		$height = $_wp_additional_image_sizes[ $size ]['height'];
-		$additional_classes = 'attachment-' . $size . ' ';
+	global $nelioab_first_time;
+	if ( $image_id && $nelioab_first_time ) {
+		$nelioab_first_time = false;
+		$aux = get_post( $image_id );
+		if ( empty( $aux ) ) {
+			update_option( 'nelioefi_placeholder_id', false );
+			$image_id = false;
+		}
 	}
 
-	if ( $width && $width > 0 ) $width = "width:${width}px;";
-	else $width = '';
-
-	if ( $height && $height > 0 ) $height = "height:${height}px;";
-	else $height = '';
-
-	if ( isset( $attr['class'] ) )
-		$additional_classes .= $attr['class'];
-
-	$alt = get_post_meta( $id, '_nelioefi_alt', true );
-	if ( isset( $attr['alt'] ) )
-		$alt = $attr['alt'];
-	if ( !$alt )
-		$alt = '';
-
-	if ( is_feed() ) {
-		$style = '';
-		if ( isset( $attr['style'] ) )
-			$style = 'style="' . $attr['style'] . '" ';
-		$html = sprintf(
-			'<img src="%s" %s' .
-			'class="%s wp-post-image nelioefi" '.
-			'alt="%s" />',
-			$image_url, $style, $additional_classes, $alt );
-	}
-	else {
-		$html = sprintf(
-			'<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ' .
-			'style="background:url(\'%s\') no-repeat center center;' .
-			'-webkit-background-size:cover;' .
-			'-moz-background-size:cover;' .
-			'-o-background-size:cover;' .
-			'background-size:cover;' .
-			'%s%s" class="%s wp-post-image nelioefi" '.
-			'alt="%s" />',
-			$image_url, $width, $height, $additional_classes, $alt );
+	if ( ! $image_id ) {
+		$aux = wp_upload_dir();
+		$filename  = 'nelioefi-placeholder.png';
+		$src_path  = trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'assets' . DIRECTORY_SEPARATOR . $filename;
+		$dest_path = trailingslashit( $aux['basedir'] ) . $filename;
+		if ( copy( $src_path, $dest_path ) ) {
+			$attachment = array(
+				'post_mime_type' => 'image/png',
+				'post_title'     => __( 'NelioEFI\'s Placeholder', 'nelioefi' ),
+				'post_content'   => '',
+				'post_status'    => 'inherit',
+				'guid'           => trailingslashit( $aux['baseurl'] ) . $filename
+			);
+			$url = trailingslashit( $aux['baseurl'] );
+			$url = str_replace( 'https://', '', $url );
+			$url = str_replace( 'http://',  '', $url );
+			$url = substr( $url, strpos( $url, '/' ) );
+			$filename = $url . $filename;
+			$image_id = wp_insert_attachment( $attachment, $filename );
+			if ( ! is_wp_error( $image_id ) ) {
+				update_option( 'nelioefi_placeholder_id', $image_id );
+			}
+		}
 	}
 
-	return $html;
+	return get_option( 'nelioefi_placeholder_id', false );
 }
 
 
@@ -125,48 +88,70 @@ function nelioefi_get_html_thumbnail( $id, $size = false, $attr = array() ) {
 /* =========================================================================*/
 /* =========================================================================*/
 
-// Overriding post thumbnail when necessary
-add_filter( 'genesis_pre_get_image', 'nelioefi_genesis_thumbnail', 10, 3 );
-function nelioefi_genesis_thumbnail( $unknown_param, $args, $post ) {
-	$image_url = get_post_meta( $post->ID, _nelioefi_url(), true );
-
-	if ( !$image_url || strlen( $image_url ) == 0 ) {
-		return false;
-	}
-
-	if ( $args['format'] == 'html' ) {
-		$html = nelioefi_replace_thumbnail( '', $post->ID, 0, $args['size'], $args['attr'] );
-		$html = str_replace( 'style="', 'style="min-width:150px;min-height:150px;', $html );
-		return $html;
-	}
-	else {
-		return $image_url;
-	}
-}
-
-
-// Overriding post thumbnail when necessary
-add_filter( 'post_thumbnail_html', 'nelioefi_replace_thumbnail', 10, 5 );
-function nelioefi_replace_thumbnail( $html, $post_id, $post_image_id, $size, $attr ) {
-	if ( uses_nelioefi( $post_id ) )
-		$html = nelioefi_get_html_thumbnail( $post_id, $size, $attr );
-	return $html;
-}
-
-
+// Set the featured image ID of the post to the transparency gif.
 add_action( 'the_post', 'nelioefi_fake_featured_image_if_necessary' );
 function nelioefi_fake_featured_image_if_necessary( $post ) {
 	if ( is_array( $post ) ) $post_ID = $post['ID'];
 	else $post_ID = $post->ID;
 
-	$has_nelioefi = strlen( get_post_meta( $post_ID, _nelioefi_url(), true ) ) > 0;
-	$wordpress_featured_image = get_post_meta( $post_ID, '_thumbnail_id', true );
+	$wp_featured_image = get_post_meta( $post_ID, '_thumbnail_id', true );
+	$aux = get_post( $wp_featured_image );
+	if ( $wp_featured_image && empty( $aux ) ) {
+		$wp_featured_image = false;
+	}
 
-	if ( $has_nelioefi && !$wordpress_featured_image )
-		update_post_meta( $post_ID, '_thumbnail_id', -1 );
-	if ( !$has_nelioefi && $wordpress_featured_image == -1 )
+	if ( uses_nelioefi( $post_ID ) && !$wp_featured_image ) {
+		update_post_meta( $post_ID, '_thumbnail_id', nelioefi_get_placeholder() );
+	}
+	if ( ! uses_nelioefi( $post_ID ) && $wp_featured_image == -1 ) {
 		delete_post_meta( $post_ID, '_thumbnail_id' );
+	}
+
 }
 
 
+$nelioefi_images = array();
+
+// Modify the transparency gif.
+add_filter( 'image_downsize', 'nelioefi_add_image_in_placeholder', 10, 3 );
+function nelioefi_add_image_in_placeholder( $downsize, $id, $size ) {
+	if ( nelioefi_get_placeholder() == $id ) {
+		remove_filter( 'image_downsize', 'nelioefi_add_image_in_placeholder', 10, 3 );
+		$result = wp_get_attachment_image_src( $id, $size );
+		add_filter( 'image_downsize', 'nelioefi_add_image_in_placeholder', 10, 3 );
+
+		$nelioefi = get_post_meta( get_the_ID(), _nelioefi_url(), true );
+		if ( $nelioefi ) {
+			global $nelioefi_images;
+			$nelioefi_images[get_the_ID()] = $nelioefi;
+			$result[0] = $result[0] . '?id=' . get_the_ID();
+			return $result;
+		}
+	}
+	return false;
+}
+
+
+add_action( 'wp_footer', 'nelioefi_print_script' );
+function nelioefi_print_script() {
+	global $nelioefi_images; ?>
+	<script type="text/javascript">
+	(function($) {
+		var images = <?php echo json_encode( $nelioefi_images ); ?>;
+		$('img[src*=nelioefi-placeholder]').each(function() {
+			try {
+				var src = $(this).attr( 'src' );
+				var id = src.substring( src.indexOf( '=' ) + 1 );
+				var value = 'url("' + images[id] + '") no-repeat center center';
+				$(this).css( 'background', value );
+				$(this).css( '-webkit-background-size', 'cover' );
+				$(this).css( '-moz-background-size', 'cover' );
+				$(this).css( '-o-background-size', 'cover' );
+				$(this).css( 'background-size', 'cover' );
+			} catch ( e ) {}
+		});
+	})(jQuery);
+	</script>
+<?php
+}
 
