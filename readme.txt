@@ -103,8 +103,7 @@ in some themes.
 inserted by means of a background-image has been implemented. The background
 image inserted by the theme (which is the transparent placeholder) is now
 replaced by the actual featured image using JavaScript. In order to do so,
-we look for a set of elements that can be filtered using the filter
-`nelioefi_background_elements`.
+we look for a set of elements that can be filtered using the filter `nelioefi_background_elements`.
 * **Improvement.** Sometimes, when you define a external featured image,
 things go wrong and the theme is unable to load the featured image properly.
 When that happens, a default image is loaded. This image can be overwritten
