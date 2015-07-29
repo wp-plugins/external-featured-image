@@ -4,7 +4,7 @@ Donate link: http://neliosoftware.com
 Tags: external, url, featured image, featured, featured images, image
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,25 @@ displaying the actual featured image (as a background property of the image
 placeholder).
 
 
+= Some (or all) posts do not show the featured image, even though it seems to be there. How can I fix it? =
+
+Some themes do not insert the featured image using an `img` tag, but they use
+other tags (such as a `div`) and use CSS properties for specifying the URL of
+the image. In order to overcome this issue, NelioEFI offers a filter that lets
+you specify the elements that might define the featured image in a CSS rule.
+
+Let's assume that featured images might appear in `div` or `a` elements. Simply
+add the following function in your `functions.php` file:
+
+	add_filter( 'nelioefi_background_elements', 'nelioefi_fix_bg_elems' );
+	function nelioefi_fix_bg_elems( $elems ) {
+		// DIV and A elements are relevant,
+		// so we add them to the $elems array:
+		array_push( $elems, 'div', 'a' );
+		return $elems;
+	}
+
+
 == Screenshots ==
 
 1. **External Featured Image with URL.** Easily set the featured image of a
@@ -75,6 +94,23 @@ post by using the image's URL only!
 
 
 == Changelog ==
+
+= 1.3.1 =
+* **Bug fix.** The placeholder now includes some metainformation that was
+missing (width, height, and so on). This way, the image is no longer 1x1px
+in some themes.
+* **Improvement.** A solution for overwriding featured images that are
+inserted by means of a background-image has been implemented. The background
+image inserted by the theme (which is the transparent placeholder) is now
+replaced by the actual featured image using JavaScript. In order to do so,
+we look for a set of elements that can be filtered using the filter
+`nelioefi_background_elements`.
+* **Improvement.** Sometimes, when you define a external featured image,
+things go wrong and the theme is unable to load the featured image properly.
+When that happens, a default image is loaded. This image can be overwritten
+using the filter `nelioefi_default_placeholder`, which returns the URL of the
+new image.
+
 
 = 1.3.0 =
 * NelioEFI is now **compatible with virtually all themes**. In order to do
@@ -141,7 +177,7 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.3.0 =
+= 1.3.1 =
 NelioEFI implements a completely new approach for inserting external featured
 images that makes it compatible with virtually all themes.
 

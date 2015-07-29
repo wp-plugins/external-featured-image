@@ -41,6 +41,10 @@ function nelioefi_get_thumbnail_src( $id ) {
 
 $nelioab_first_time = true;
 function nelioefi_get_placeholder() {
+	if ( is_admin() ) {
+		return false;
+	}
+
 	$image_id = get_option( 'nelioefi_placeholder_id', false );
 
 	global $nelioab_first_time;
@@ -66,13 +70,11 @@ function nelioefi_get_placeholder() {
 				'post_status'    => 'inherit',
 				'guid'           => trailingslashit( $aux['baseurl'] ) . $filename
 			);
-			$url = trailingslashit( $aux['baseurl'] );
-			$url = str_replace( 'https://', '', $url );
-			$url = str_replace( 'http://',  '', $url );
-			$url = substr( $url, strpos( $url, '/' ) );
-			$filename = $url . $filename;
-			$image_id = wp_insert_attachment( $attachment, $filename );
+			$image_id = wp_insert_attachment( $attachment, $dest_path );
 			if ( ! is_wp_error( $image_id ) ) {
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+				$attach_data = wp_generate_attachment_metadata( $image_id, $dest_path );
+				wp_update_attachment_metadata( $image_id, $attach_data );
 				update_option( 'nelioefi_placeholder_id', $image_id );
 			}
 		}
@@ -124,7 +126,7 @@ function nelioefi_add_image_in_placeholder( $downsize, $id, $size ) {
 		if ( $nelioefi ) {
 			global $nelioefi_images;
 			$nelioefi_images[get_the_ID()] = $nelioefi;
-			$result[0] = $result[0] . '?id=' . get_the_ID();
+			$result[0] = add_query_arg( 'nelioefi', get_the_ID(), $result[0] );
 			return $result;
 		}
 	}
@@ -134,15 +136,32 @@ function nelioefi_add_image_in_placeholder( $downsize, $id, $size ) {
 
 add_action( 'wp_footer', 'nelioefi_print_script' );
 function nelioefi_print_script() {
-	global $nelioefi_images; ?>
+	global $nelioefi_images;
+	$default_image = apply_filters( 'nelioefi_default_placeholder',
+		untrailingslashit( plugin_dir_url( dirname( __FILE__ ) ) ) .
+			'/assets/default-placeholder.png' );
+	?>
 	<script type="text/javascript">
 	(function($) {
 		var images = <?php echo json_encode( $nelioefi_images ); ?>;
+		var key = 'nelioefi';
+		function getImage( id ) {
+			if ( typeof images[id] === 'undefined' ) {
+				return <?php echo json_encode( $default_image ); ?>;
+			} else {
+				return images[id];
+			}
+		}
+
+		// Regular images that use the placeholder in the SRC
 		$('img[src*=nelioefi-placeholder]').each(function() {
 			try {
 				var src = $(this).attr( 'src' );
-				var id = src.substring( src.indexOf( '=' ) + 1 );
-				var value = 'url("' + images[id] + '") no-repeat center center';
+				var id = src.substring( src.indexOf( key + '=' ) + key.length + 1 );
+				if ( id.indexOf( '&' ) > 0 ) {
+					id = id.substring( 0, id.indexOf( '&' ) );
+				}
+				var value = 'url("' + getImage( id ) + '") no-repeat center center';
 				$(this).css( 'background', value );
 				$(this).css( '-webkit-background-size', 'cover' );
 				$(this).css( '-moz-background-size', 'cover' );
@@ -150,8 +169,42 @@ function nelioefi_print_script() {
 				$(this).css( 'background-size', 'cover' );
 			} catch ( e ) {}
 		});
+	<?php
+	$elements = apply_filters( 'nelioefi_background_elements', array() );
+	if ( count( $elements ) > 0 ) {
+	$rule = implode( ', ', $elements );
+	?>
+
+		// Other elements that might use the placeholder as in the background CSS property
+		try {
+			$('<?php echo $rule; ?>').each(function() {
+				if ( $(this).css('background').indexOf('nelioefi-placeholder') > 0 ) {
+					var bg = $(this).css( 'background' );
+					id = bg.substring( bg.indexOf( key + '=' ) + key.length + 1 );
+					try {
+						id = id.match( /^[0-9]+/ )[0];
+						var value = 'url("' + getImage( id ) + '") no-repeat center center';
+						$(this).css('background', value);
+						$(this).css( '-webkit-background-size', 'cover' );
+						$(this).css( '-moz-background-size', 'cover' );
+						$(this).css( '-o-background-size', 'cover' );
+						$(this).css( 'background-size', 'cover' );
+					} catch ( e ) {}
+				}
+			});
+		} catch ( e ) {}
+	<?php
+	} ?>
 	})(jQuery);
 	</script>
 <?php
+}
+
+
+function nelioefi_regenerate_placeholder() {
+	$image_id = get_option( 'nelioefi_placeholder_id', false );
+	if ( ! empty( $image_id ) ) {
+		wp_delete_post( $image_id );
+	}
 }
 
