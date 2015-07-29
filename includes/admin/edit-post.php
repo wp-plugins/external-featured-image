@@ -36,8 +36,7 @@ function nelioefi_url_metabox( $post ) {
 		$show_if_img = 'display:none;';
 	}
 	?>
-	<input type="text" placeholder="ALT attribute" style="width:100%;margin-top:10px;<?php echo $show_if_img; ?>"
-		id="nelioefi_alt" name="nelioefi_alt"
+	<input type="hidden" id="nelioefi_alt" name="nelioefi_alt"
 		value="<?php echo esc_attr( $nelioefi_alt ); ?>" /><?php
 	if ( $has_img ) { ?>
 	<div id="nelioefi_preview_block"><?php
