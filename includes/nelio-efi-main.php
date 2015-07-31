@@ -239,19 +239,29 @@ function nelioefi_set_external_featured_image(
 		$args = array( 'ID' => $feat_image_id );
 		if ( $title !== false ) {
 			$args['post_title'] = $title;
+		} else {
+			$title = '';
 		}
+
+		if ( $caption !== false ) {
+			$args['post_excerpt'] = $caption;
+		} else {
+			$caption = '';
+		}
+
 		if ( $descr !== false ) {
 			$args['post_content'] = $descr;
 		}
-		if ( $caption !== false ) {
-			$args['post_excerpt'] = $caption;
-		}
+
 		if ( count( $args ) > 1 ) {
 			wp_update_post( $args );
 		}
+
 		update_post_meta( $post_id, '_thumbnail_id', $feat_image_id );
 		update_post_meta( $post_id, _nelioefi_url(), $feat_image_url );
 		update_post_meta( $post_id, _nelioefi_aspect_ratio(), $aspect_ratio );
+		update_post_meta( $post_id, '_nelioefi_alt', $caption );
+		update_post_meta( $post_id, '_nelioefi_title', $title );
 		update_post_meta( $feat_image_id, '_nelioefi_related_post', $post_id );
 
 		// Since this is a fake featured image, we have to hide it.
@@ -322,9 +332,13 @@ function nelioefi_print_script() {
 			$( 'img[src*=nelioefi-placeholder]', elem ).each( function() {
 				try {
 					var src = $( this ).attr( 'src' );
-					var imageUrl = src.substring( src.indexOf( key + '=' ) + key.length + 1 );
-					if ( imageUrl.indexOf( '&' ) > 0 ) {
-						imageUrl = imageUrl.substring( 0, imageUrl.indexOf( '&' ) );
+					var pos = src.indexOf( key + '=' );
+					var imageUrl = <?php echo json_encode( urlencode( nelioefi_get_default_placeholder() ) ); ?>;
+					if ( pos != -1 ) {
+						imageUrl = src.substring( pos + key.length + 1 );
+						if ( imageUrl.indexOf( '&' ) > 0 ) {
+							imageUrl = imageUrl.substring( 0, imageUrl.indexOf( '&' ) );
+						}
 					}
 					setImage( $( this ), imageUrl );
 				} catch ( e ) {}

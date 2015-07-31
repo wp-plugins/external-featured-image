@@ -60,11 +60,11 @@ function nelioefi_url_metabox( $post ) {
 
 		<strong><?php _e( 'Aspect Ratio', 'nelioefi' )?></strong><br>
 		&nbsp;&nbsp;<select id="nelioefi_aspect_ratio" name="nelioefi_aspect_ratio">
-			<option <?php if ( '16:9' == $nelioefi_aspect_ratio ) echo 'selected="selected"'; ?> value="16:9"><?php _e( 'Super Panoramic', 'nelioefi' ); ?></option>
-			<option <?php if ( '4:3' == $nelioefi_aspect_ratio ) echo 'selected="selected"'; ?> value="4:3"><?php _e( 'Panoramic', 'nelioefi' ); ?></option>
-			<option <?php if ( '1:1' == $nelioefi_aspect_ratio ) echo 'selected="selected"'; ?> value="1:1"><?php _e( 'Squared', 'nelioefi' ); ?></option>
-			<option <?php if ( '3:4' == $nelioefi_aspect_ratio ) echo 'selected="selected"'; ?> value="3:4"><?php _e( 'Portrait', 'nelioefi' ); ?></option>
-			<option <?php if ( '9:16' == $nelioefi_aspect_ratio ) echo 'selected="selected"'; ?> value="9:16"><?php _e( 'Super Portrait', 'nelioefi' ); ?></option>
+			<option <?php if ( '16:9' == $nelioefi_aspect_ratio ) echo 'selected="selected"'; ?> value="16:9"><?php _e( 'HD Panoramic (16:9)', 'nelioefi' ); ?></option>
+			<option <?php if ( '4:3' == $nelioefi_aspect_ratio )  echo 'selected="selected"'; ?> value="4:3"><?php  _e( 'Traditional (4:3)', 'nelioefi' ); ?></option>
+			<option <?php if ( '1:1' == $nelioefi_aspect_ratio )  echo 'selected="selected"'; ?> value="1:1"><?php  _e( 'Square (1:1)', 'nelioefi' ); ?></option>
+			<option <?php if ( '3:4' == $nelioefi_aspect_ratio )  echo 'selected="selected"'; ?> value="3:4"><?php  _e( 'Portrait (3:4)', 'nelioefi' ); ?></option>
+			<option <?php if ( '9:16' == $nelioefi_aspect_ratio ) echo 'selected="selected"'; ?> value="9:16"><?php _e( 'HD Portrait (9:16)', 'nelioefi' ); ?></option>
 		</select>
 	</div><?php
 	if ( $has_img ) { ?>

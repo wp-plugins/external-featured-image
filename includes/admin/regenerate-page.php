@@ -14,18 +14,19 @@ function nelioefi_add_page() {
 // =========================================================
 function nelioefi_page() { ?>
 
+<div class="wrap">
+
 <h2><?php _e( 'NelioEFI &mdash; Regenerate Thumbnails', 'nelioefi' ); ?></h2>
 
-<div class="wrap">
 <p><?php
-	_e( 'Click on the button «Fix External Images» for generating virtual attachments for all posts in your blog that use external featured images.', 'nelioefi' );
-	echo ' ';
-	_e( 'On the other hand, click on «Regenerate Thumbnails» if you\'ve changed your theme and you want the sizes of Nelio\'s external featured images to match the new theme.', 'nelioefi' );
+	_e( 'Click on the button «Regenerate EFI Attachments» for generating virtual attachments for all posts in your blog that use external featured images.', 'nelioefi' );
+	echo '<br>';
+	_e( 'On the other hand, click on «Create Theme Thumbnails» if you\'ve changed your theme and you want the sizes of Nelio\'s external featured images to match the new theme.', 'nelioefi' );
 ?></p>
 
 
-<a id="nelioefi_create" class="button button-primary" href="#"><?php _e( 'Fix External Images', 'nelioefi' ); ?></a>
-<a id="nelioefi_regenerate" class="button" href="#"><?php _e( 'Regenerate Thumbnails', 'nelioefi' ); ?></a>
+<a id="nelioefi_create" class="button button-primary" href="#"><?php _e( 'Regenerate EFI Attachments', 'nelioefi' ); ?></a>
+<a id="nelioefi_regenerate" class="button" href="#"><?php _e( 'Create Theme Thumbnails', 'nelioefi' ); ?></a>
 <div id="nelioefi_progress" style="width:100%;height:30px;padding-top:1em;">
 <div class="nelioefi_percentage"></div>
 <div class="nelioefi_bar" style="background-color:#555;height:20px;width:0%;">
@@ -93,8 +94,10 @@ function nelioefi_page() { ?>
 			generateButton.addClass( 'disabled' );
 			$.ajax({
 				url: ajaxurl,
+				type: 'POST',
 				data: {
-					action: 'nelioefi_regenerate_thumbnails'
+					action: 'nelioefi_regenerate_thumbnails',
+					force: 'force' // TODO
 				},
 				success: function() {
 					messageArea.html( messageArea.text() + ' Done!<br>' );
@@ -146,6 +149,12 @@ function nelioefi_page() { ?>
 
 add_action( 'wp_ajax_nelioefi_regenerate_thumbnails', 'nelioefi_regenerate_thumbnails_ajax' );
 function nelioefi_regenerate_thumbnails_ajax() {
+
+	if ( isset( $_POST['force'] ) && 'force' == $_POST['force'] ) {
+		global $wpdb;
+		$wpdb->delete( $wpdb->posts, array( 'post_status' => 'nelioefi_hidden' ) );
+	}
+
 	nelioefi_regenerate_thumbnails();
 }
 
@@ -169,7 +178,9 @@ function nelioefi_create_efi_attachment_ajax() {
 	if ( ! isset( $_POST['post_id'] ) ) {
 		wp_send_json( 'Done!' );
 	}
+
 	$post_id = $_POST['post_id'];
+
 	$attachment_id = get_post_meta( $post_id, '_thumbnail_id', true );
 	$attachment = get_post( $attachment_id );
 	if ( ! $attachment || $attachment->post_status !== 'nelioefi_hidden' ) {
@@ -185,7 +196,11 @@ function nelioefi_create_efi_attachment_ajax() {
 		if ( empty( $alt_text ) ) {
 			$alt_text = '';
 		}
-		$res = nelioefi_set_external_featured_image( $post_id, $url, $aspect_ratio, $alt_text, '', $alt_text );
+		$title = get_post_meta( $post_id, '_nelioefi_title', true );
+		if ( empty( $title ) ) {
+			$title = $alt_text;
+		}
+		$res = nelioefi_set_external_featured_image( $post_id, $url, $aspect_ratio, $title, '', $alt_text );
 		if ( $res ) {
 			wp_send_json( 'Done!' );
 		} else {
