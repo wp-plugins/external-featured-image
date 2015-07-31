@@ -4,7 +4,7 @@ Donate link: http://neliosoftware.com
 Tags: external, url, featured image, featured, featured images, image
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 1.3.1
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,15 @@ post by using the image's URL only!
 
 == Changelog ==
 
+= 1.3.2beta =
+* **Bug fix.** Under some themes, several posts ended up having the same
+featured image as the main post (for instance, in widgets or in previous/next
+buttons). Featured images are now properly loaded, even when they are not
+loaded using the loop.
+* **Improvement.** Featured images are also visible when additional content is
+loaded using AJAX.
+
+
 = 1.3.1 =
 * **Bug fix.** The placeholder now includes some metainformation that was
 missing (width, height, and so on). This way, the image is no longer 1x1px
@@ -176,7 +185,6 @@ tries to scale and crop the external image for its proper display.
 
 == Upgrade Notice ==
 
-= 1.3.1 =
-NelioEFI implements a completely new approach for inserting external featured
-images that makes it compatible with virtually all themes.
+= 1.2.0 =
+Bug fix when quick editing a post. Some minor improvements.
 
