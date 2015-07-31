@@ -3,7 +3,7 @@ Contributors: nelio, davilera
 Donate link: http://neliosoftware.com
 Tags: external, url, featured image, featured, featured images, image
 Requires at least: 3.3
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,9 +17,9 @@ Are you using an external service for storing your images? Then you'd probably
 like to use those images as featured images for your pages and posts. This
 plugin lets you do this easily!
 
-**UPDATE!** NelioEFI is now compatible with virtually all themes! Read the FAQ
-section for more information on how it works.
 
+**Notice** Sometimes, external featured images are not visible. Please, check
+the FAQ section to discover how to solve the issue.
 
 = Featured On =
 
@@ -60,31 +60,46 @@ own alternative image sizes. For example, WordPress' default theme
 TwentyFourteen defines a thumbnail size called "twentyfourteen-full-width"
 whose dimensions are 1038x576.
 
-**Update with version 1.3.** With this version, NelioEFI now uses a transparent
-Placeholder. The Placeholder is automatically set as the featured images of any
-posts that use an external featured image.  Then, using JavaScript, NelioEFI
-detects which images are using the Placeholder and adds a CSS property for
-displaying the actual featured image (as a background property of the image
-placeholder).
+This plugin uses the alternative-size information (which your theme uses for
+rendering a featured image) for scaling and cropping external featured images
+via CSS on your users' browsers.
+
+There are some situations, however, in which this "size" information is not
+provided. In these scenarios, our plugin relies on theme's CSS file. If the
+CSS rules define the width and height of the featured image, everything should
+be fine. Otherwise, you may have to tweak something.
 
 
-= Some (or all) posts do not show the featured image, even though it seems to be there. How can I fix it? =
+= I don't see external featured images. What do I do? =
 
-Some themes do not insert the featured image using an `img` tag, but they use
-other tags (such as a `div`) and use CSS properties for specifying the URL of
-the image. In order to overcome this issue, NelioEFI offers a filter that lets
-you specify the elements that might define the featured image in a CSS rule.
+Try adding the following CSS code in your theme:
 
-Let's assume that featured images might appear in `div` or `a` elements. Simply
-add the following function in your `functions.php` file:
+`
+img.nelioefi {
+  min-width:100px;
+  min-height:100px;
+}
+`
 
-	add_filter( 'nelioefi_background_elements', 'nelioefi_fix_bg_elems' );
-	function nelioefi_fix_bg_elems( $elems ) {
-		// DIV and A elements are relevant,
-		// so we add them to the $elems array:
-		array_push( $elems, 'div', 'a' );
-		return $elems;
-	}
+and refresh your site. If you can see the external featured image, it means
+that our plugin works properly, but some CSS tweaking was needed. Now, simply
+edit the CSS styles of your theme so that the featured image looks good
+everywhere (`width`, `height`, `max-width`, `max-height`).
+
+
+= I added the CSS code you mention, but images do not appear yet. =
+
+WordPress offers more than one function for inserting featured images.
+Unfortunately, only one of them has a filter we can use. If your theme is not
+using the `(get_)the_post_thumbnail`, then our plugin will not be able to
+insert external featured images.
+
+In these cases, the only solution is to tweak your theme and edit some PHP
+code. Unfortunately, there's no generic solution for doing it. Just locate
+where featured images are being inserted, and edit those lines so that it uses
+the previous function (if possible). Please note that the plugin also offers
+some helper functions that will ease the "tuning" of the theme (check the file
+includes/nelio-efi-main.php to know them and review their documentation).
 
 
 == Screenshots ==
@@ -94,41 +109,6 @@ post by using the image's URL only!
 
 
 == Changelog ==
-
-= 1.3.2beta =
-* **Bug fix.** Under some themes, several posts ended up having the same
-featured image as the main post (for instance, in widgets or in previous/next
-buttons). Featured images are now properly loaded, even when they are not
-loaded using the loop.
-* **Improvement.** Featured images are also visible when additional content is
-loaded using AJAX.
-
-
-= 1.3.1 =
-* **Bug fix.** The placeholder now includes some metainformation that was
-missing (width, height, and so on). This way, the image is no longer 1x1px
-in some themes.
-* **Improvement.** A solution for overwriding featured images that are
-inserted by means of a background-image has been implemented. The background
-image inserted by the theme (which is the transparent placeholder) is now
-replaced by the actual featured image using JavaScript. In order to do so,
-we look for a set of elements that can be filtered using the filter `nelioefi_background_elements`.
-* **Improvement.** Sometimes, when you define a external featured image,
-things go wrong and the theme is unable to load the featured image properly.
-When that happens, a default image is loaded. This image can be overwritten
-using the filter `nelioefi_default_placeholder`, which returns the URL of the
-new image.
-
-
-= 1.3.0 =
-* NelioEFI is now **compatible with virtually all themes**. In order to do
-that, we use a transparent Placeholder that is set as the featured image of all
-the posts that use an external featured image. Then, using JavaScript, the
-actual featured image is set as the background of the transparent placeholder.
-* Because of the new approach, we can no longer define custom ALT text. Future
-version might fix this issue. In the meantime, though, we remove the support
-for this field.
-
 
 = 1.2.0 =
 * Bug fix: Quick Edit (and possibly other edits) a post removed the external
