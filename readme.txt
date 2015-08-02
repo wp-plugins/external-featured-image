@@ -17,9 +17,14 @@ Are you using an external service for storing your images? Then you'd probably
 like to use those images as featured images for your pages and posts. This
 plugin lets you do this easily!
 
-
 **Notice** Sometimes, external featured images are not visible. Please, check
 the FAQ section to discover how to solve the issue.
+
+**Notice** After all the issues that 1.3.x series have caused, I've decided to
+go back to 1.2.0 and make it the stable version of the plugin. For those of you
+who that version worked, you can download it from the
+[Developers](https://wordpress.org/plugins/external-featured-image/developers/)
+tab.
 
 = Featured On =
 
