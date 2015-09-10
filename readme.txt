@@ -3,8 +3,8 @@ Contributors: nelio, davilera
 Donate link: http://neliosoftware.com
 Tags: external, url, featured image, featured, featured images, image
 Requires at least: 3.3
-Tested up to: 4.2
-Stable tag: 1.2.0
+Tested up to: 4.3
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,12 @@ plugin lets you do this easily!
 
 **Notice** Sometimes, external featured images are not visible. Please, check
 the FAQ section to discover how to solve the issue.
+
+**Notice** After all the issues that 1.3.x series have caused, I've decided to
+go back to 1.2.0 and make it the stable version of the plugin. For those of you
+who that version worked, you can download it from the
+[Developers](https://wordpress.org/plugins/external-featured-image/developers/)
+tab.
 
 = Featured On =
 
