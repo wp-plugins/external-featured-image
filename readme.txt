@@ -3,8 +3,8 @@ Contributors: nelio, davilera
 Donate link: http://neliosoftware.com
 Tags: external, url, featured image, featured, featured images, image
 Requires at least: 3.3
-Tested up to: 4.2
-Stable tag: 1.2.0
+Tested up to: 4.3
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,6 +16,7 @@ posts.
 Are you using an external service for storing your images? Then you'd probably
 like to use those images as featured images for your pages and posts. This
 plugin lets you do this easily!
+
 
 **Notice** Sometimes, external featured images are not visible. Please, check
 the FAQ section to discover how to solve the issue.
