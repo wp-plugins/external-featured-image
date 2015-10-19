@@ -17,6 +17,10 @@ Are you using an external service for storing your images? Then you'd probably
 like to use those images as featured images for your pages and posts. This
 plugin lets you do this easily!
 
+If you like the plugin and you can afford to, please [consider a
+donation](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=J3AEK6JGVW6TQ).
+Thanks!
+
 
 **Notice** Sometimes, external featured images are not visible. Please, check
 the FAQ section to discover how to solve the issue.
